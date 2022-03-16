@@ -4,8 +4,7 @@ class IterableMonad:
 
   def map(self, func) -> any:
       iterableOut = self.__yieldMap(func)
-      monadOut = IterableMonad(iterableOut)
-      return monadOut
+      return IterableMonad(iterableOut)
 
   def flatMap(self, mapFunc, flatFunc=None) -> any:
       iterableOut = self.__yieldFlatMap(mapFunc, flatFunc)
@@ -13,6 +12,10 @@ class IterableMonad:
 
   def filter(self, predicate) -> any:
       iterableOut = self.__yieldFilter(predicate)
+      return IterableMonad(iterableOut)
+
+  def sort(self, keyFunc) -> any:
+      iterableOut = self.__yieldSort(keyFunc)
       return IterableMonad(iterableOut)
 
   def group(self, keyFunc) -> any:
@@ -42,6 +45,11 @@ class IterableMonad:
   def __yieldFilter(self, predicate) -> iter:
       for x in self.source:
           if predicate(x): yield x
+
+  def __yieldSort(self, predicate) -> iter:
+      for x in sorted(self.source):
+          yield(x)
+      pass
 
   def __yieldGroup(self, keyFunc) -> iter:
       pass
