@@ -23,7 +23,8 @@ class IterableMonad:
       return IterableMonad(iterableOut)
 
   def group(self, keyFunc) -> any:
-      pass
+      iterableOut = self.__yieldGroup(keyFunc)
+      return IterableMonad(iterableOut)
 
   def reduce(self, func, start=None) -> any:
       sourceIter = iter(self.source)
@@ -35,6 +36,8 @@ class IterableMonad:
   def toList(self) -> list:
       return list(self.source)
 
+  def toDict(self) -> dict:
+      return dict(self.source)
 
   def __yieldMap(self, func) -> iter:
       for x in self.source:
@@ -60,17 +63,12 @@ class IterableMonad:
       groupDict = {}
       for x in self.source:
           key = keyFunc(x)
-          self.__addValue(groupDict, key, x)
-      for k, v in dict:
+          self.__addItem(groupDict, key, x)
+      for k, v in groupDict:
           yield k, v
 
-  def __addValue(dict, key, val):
+  def __addItem(self, dict, key, val):
       if key not in dict:
           dict[key] = []
-      if val not in dict[key]:
-          dict[key].append(val)
-          
-
-
-
+      dict[key].append(val) # if val not in dict[key] ?
 
