@@ -1,3 +1,7 @@
+from tkinter.messagebox import NO
+from tokenize import group
+
+
 class IterableMonad:
   def __init__(self, iterable):
     self.source = iterable
@@ -52,7 +56,21 @@ class IterableMonad:
       pass
 
   def __yieldGroup(self, keyFunc) -> iter:
-      pass
+      # TODO
+      groupDict = {}
+      for x in self.source:
+          key = keyFunc(x)
+          self.__addValue(groupDict, key, x)
+      for k, v in dict:
+          yield k, v
+
+  def __addValue(dict, key, val):
+      if key not in dict:
+          dict[key] = []
+      if val not in dict[key]:
+          dict[key].append(val)
+          
+
 
 
 
